@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { AppBar, Toolbar, Typography, Box, Container } from "@mui/material";
+import { AppBar, Toolbar, Typography, Box, Container, Button, Stack } from "@mui/material";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import PageTransition from "../shared/ui/PageTransition";
 
 const navItems = [
   { to: "/", label: "Каталог", end: true },
@@ -12,46 +13,41 @@ const navItems = [
 export default function Layout() {
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
-      <AppBar position="static">
-        <Toolbar sx={{ gap: 4, py: 1 }}>
+      <AppBar position="sticky" elevation={0}>
+        <Toolbar sx={{ gap: { xs: 1.5, sm: 3 }, py: 1, flexWrap: "wrap", justifyContent: "space-between" }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <MenuBookIcon sx={{ color: "secondary.main" }} />
-            <Typography
-              variant="h6"
-              sx={{ color: "#FCFAF3", letterSpacing: 0.2 }}
-            >
-              КнигоОбмен
-            </Typography>
+            <Typography variant="h6" sx={{ color: "#FCFAF3", letterSpacing: 0.2, whiteSpace: "nowrap" }}>КнигоОбмен</Typography>
           </Box>
-          <Box sx={{ display: "flex", gap: 3 }}>
+          <Stack direction="row" spacing={{ xs: 0.5, sm: 1 }} sx={{ flexWrap: "wrap", justifyContent: "flex-end" }}>
             {navItems.map((item) => (
-              <Typography
+              <Button
                 key={item.to}
                 component={NavLink}
                 to={item.to}
-                end={item.end as true | undefined}
+                end={item.end}
+                size="small"
                 sx={{
-                  color: "rgba(252,250,243,0.72)",
-                  textDecoration: "none",
-                  fontSize: 15,
-                  fontWeight: 600,
-                  pb: 0.5,
-                  borderBottom: "2px solid transparent",
-                  "&.active": {
-                    color: "#FCFAF3",
-                    borderBottom: "2px solid #B8863B",
-                  },
+                  color: "rgba(252,250,243,0.78)",
+                  textTransform: "none",
+                  fontSize: { xs: 12, sm: 14 },
+                  minWidth: 0,
+                  px: { xs: 1, sm: 1.5 },
+                  borderRadius: 1,
+                  "&.active": { color: "#FCFAF3", bgcolor: "rgba(252,250,243,0.12)" },
+                  "&:hover": { bgcolor: "rgba(252,250,243,0.10)" },
                 }}
-              >
-                {item.label}
-              </Typography>
+              >{item.label}</Button>
             ))}
-          </Box>
+          </Stack>
         </Toolbar>
       </AppBar>
-      <Container maxWidth="lg" sx={{ py: 5 }}>
-        <Outlet />
+      <Container maxWidth="lg" sx={{ py: { xs: 3, sm: 5 } }}>
+        <PageTransition><Outlet /></PageTransition>
       </Container>
+      <Box component="footer" sx={{ borderTop: "1px solid", borderColor: "divider", py: 2, px: 2, textAlign: "center" }}>
+        <Typography variant="caption" color="text.secondary">КнигоОбмен · Читайте, делитесь, возвращайте</Typography>
+      </Box>
     </Box>
   );
 }
