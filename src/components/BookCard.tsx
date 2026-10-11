@@ -11,7 +11,7 @@ const statusConfig: Record<Book["status"], { label: string; color: "success" | "
 
 export default function BookCard({ book }: { book: Book }) {
   const navigate = useNavigate();
-  const bookingState = useBookingState();
+  useBookingState();
   const status = statusConfig[getBookStatus(book.id, book.status)];
 
   return (
